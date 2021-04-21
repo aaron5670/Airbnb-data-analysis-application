@@ -60,7 +60,7 @@ namespace AirBNB_React_App
             {
                 endpoints.MapMiniProfilerIncludes(new RenderOptions
                 {
-                    StartHidden = false,
+                    StartHidden = true,
                     PopupToggleKeyboardShortcut = "Ctrl+m",
                 });
                 
