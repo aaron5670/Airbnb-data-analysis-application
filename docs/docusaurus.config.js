@@ -2,13 +2,13 @@
 module.exports = {
   title: 'Airbnb Application',
   tagline: 'Airbnb data analysis application',
-  url: 'https://aaron5670.github.io/Airbnb-data-analysis-application/',
-  baseUrl: '/Airbnb-data-analysis-application/',
+  url: 'https://aaron5670.github.io/Airbnb-data-analysis-application',
+  baseUrl: '/',
+  organizationName: 'aaron5670', // Usually your GitHub org/user name.
+  projectName: 'Airbnb-data-analysis-application', // Usually your repo name.
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'aaron5670', // Usually your GitHub org/user name.
-  projectName: 'Airbnb-data-analysis-application', // Usually your repo name.
   themeConfig: {
     navbar: {
       title: 'Airbnb application',
