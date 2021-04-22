@@ -2,8 +2,8 @@
 module.exports = {
   title: 'Airbnb Application',
   tagline: 'Airbnb data analysis application',
-  url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  url: 'https://aaron5670.github.io/Airbnb-data-analysis-application/',
+  baseUrl: '/Airbnb-data-analysis-application/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
