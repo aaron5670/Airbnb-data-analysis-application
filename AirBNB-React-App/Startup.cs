@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Profiling;
+using Microsoft.EntityFrameworkCore;
 
 namespace AirBNB_React_App
 {
@@ -21,7 +22,10 @@ namespace AirBNB_React_App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            
+
+            services.AddDbContext<AirBNBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("AIRBNB")));
+
             services.AddMiniProfiler(options =>
             {
                 //Optional options
