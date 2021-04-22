@@ -6,7 +6,7 @@ import Geocoder from "react-mapbox-gl-geocoder";
 import config from "../../config";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const MapComponent = ({zoom, mapTheme}) => {
+const MapComponent = ({zoom, mapTheme, handleZoomLevel}) => {
     const [viewport, setViewport] = useState({latitude: 52.139260, longitude: 6.525730, zoom: zoom});
     const [tempMarker, setTempMarker] = useState({name: null, longitude: 1, latitude: 1});
     const [selectedMarker, setSelectedMarker] = useState(null);
@@ -70,7 +70,10 @@ const MapComponent = ({zoom, mapTheme}) => {
                 {...viewport}
                 {...mapStyle}
                 style={{position: 'fixed'}}
-                onViewportChange={(viewport) => setViewport(viewport)}>
+                onViewportChange={(viewport) => {
+                    handleZoomLevel(viewport.zoom);
+                    setViewport(viewport);
+                }}>
 
                 {tempMarker && (
                     <Marker

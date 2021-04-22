@@ -5,8 +5,9 @@ import {useControls} from "leva";
 const Map = () => {
     const [zoomLevel, setZoomLevel] = useState(11);
     const [mapTheme, setMapTheme] = useState('mapbox://styles/mapbox/streets-v11');
+    const handleZoomLevel = zoomLevel => set({zoom: zoomLevel})
 
-    const {zoom, theme} = useControls({
+    const [{zoom, theme}, set] = useControls(() => ({
             zoom: {value: 11, min: 0, max: 24},
             theme: {
                 options: {
@@ -18,8 +19,8 @@ const Map = () => {
                 }
             }
         }
-    )
-
+    ));
+    
     useEffect(() => {
         setZoomLevel(zoom)
     }, [zoom])
@@ -27,11 +28,10 @@ const Map = () => {
     useEffect(() => {
         setMapTheme(theme)
     }, [theme])
-    
-    
+
     return (
         <div>
-            <MapComponent zoom={zoomLevel} mapTheme={mapTheme}/>
+            <MapComponent zoom={zoomLevel} mapTheme={mapTheme} handleZoomLevel={handleZoomLevel}/>
         </div>
     )
 }
