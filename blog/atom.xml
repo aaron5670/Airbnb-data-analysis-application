@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://aaron5670.github.io/Airbnb-data-analysis-application/blog</id>
+    <id>https://aaron5670.github.io/blog</id>
     <title>Airbnb Application Blog</title>
     <updated>2015-10-25T23:29:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://aaron5670.github.io/Airbnb-data-analysis-application/blog"/>
+    <link rel="alternate" href="https://aaron5670.github.io/blog"/>
     <subtitle>Airbnb Application Blog</subtitle>
-    <icon>https://aaron5670.github.io/Airbnb-data-analysis-application/img/favicon.ico</icon>
+    <icon>https://aaron5670.github.io/img/favicon.ico</icon>
 </feed>
