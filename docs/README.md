@@ -1,3 +1,4 @@
+![Demo](https://raw.githubusercontent.com/aaron5670/Airbnb-data-analysis-application/master/.github/screenshot.png?token=AED6OKJAGJRPDTYMP7YXZADARLAVA)
 # Airbnb data analysis application
 
 ### 📚 Documentatie
