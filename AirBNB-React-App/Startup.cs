@@ -1,3 +1,4 @@
+using AirBNB_React_App.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -36,6 +37,8 @@ namespace AirBNB_React_App
             {
                 configuration.RootPath = "ClientApp/build";
             });
+            
+            services.AddTransient<IListingsRepository, ListingRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
