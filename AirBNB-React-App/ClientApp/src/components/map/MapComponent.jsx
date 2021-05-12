@@ -1,10 +1,14 @@
 ﻿import React, {useEffect, useState} from "react";
-import ReactMapGL, {Marker} from "react-map-gl";
+import ReactMapGL, {Marker, Source, Layer} from "react-map-gl";
+import {clusterLayer, clusterCountLayer, unclusteredPointLayer} from '../../helpers/layers';
 import CustomMarker from "./CustomMarker";
 import CustomPopup from "./CustomPopup";
 import Geocoder from "react-mapbox-gl-geocoder";
 import config from "../../config";
 import 'mapbox-gl/dist/mapbox-gl.css';
+
+//Demo data
+import DATA from '../../locations.geojson';
 
 const MapComponent = ({zoom, mapTheme, handleZoomLevel}) => {
     const [viewport, setViewport] = useState({latitude: 52.139260, longitude: 6.525730, zoom: zoom});
@@ -18,7 +22,7 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel}) => {
             longitude: viewport.longitude,
             zoom: zoom
         })
-    }, [zoom])
+    }, [zoom]);
 
     const mapStyle = {
         width: '100%',
@@ -51,6 +55,15 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel}) => {
     const openPopup = (index) => setSelectedMarker(index);
     const closePopup = () => setSelectedMarker(null);
 
+    const layerStyle = {
+        id: 'point',
+        type: 'circle',
+        paint: {
+            'circle-radius': 10,
+            'circle-color': '#007cbf'
+        }
+    };
+
     return (
         <div>
             <Geocoder
@@ -74,6 +87,20 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel}) => {
                     handleZoomLevel(viewport.zoom);
                     setViewport(viewport);
                 }}>
+
+
+                <Source
+                    id="my-data"
+                    type="geojson"
+                    data={DATA}
+                    cluster={true}
+                    clusterMaxZoom={14}
+                    clusterRadius={50}
+                >
+                    <Layer {...clusterLayer} />
+                    <Layer {...clusterCountLayer} />
+                    <Layer {...unclusteredPointLayer} />
+                </Source>
 
                 {tempMarker && (
                     <Marker
