@@ -7,11 +7,8 @@ import Geocoder from "react-mapbox-gl-geocoder";
 import config from "../../config";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-//Demo data
-import DATA from '../../locations.geojson';
-
-const MapComponent = ({zoom, mapTheme, handleZoomLevel}) => {
-    const [viewport, setViewport] = useState({latitude: 52.139260, longitude: 6.525730, zoom: zoom});
+const MapComponent = ({zoom, mapTheme, handleZoomLevel, geoJSON}) => {
+    const [viewport, setViewport] = useState({latitude: 52.370216, longitude: 4.895168, zoom: zoom});
     const [tempMarker, setTempMarker] = useState({name: null, longitude: 1, latitude: 1});
     const [selectedMarker, setSelectedMarker] = useState(null);
     const [markers, setMarkers] = useState([]);
@@ -92,7 +89,7 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel}) => {
                 <Source
                     id="my-data"
                     type="geojson"
-                    data={DATA}
+                    data={geoJSON}
                     cluster={true}
                     clusterMaxZoom={14}
                     clusterRadius={50}

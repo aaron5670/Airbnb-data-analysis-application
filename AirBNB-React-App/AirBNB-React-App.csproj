@@ -27,7 +27,7 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
-    <Content Include="ClientApp\src\geojson.json" />
+    <Content Include="ClientApp\src\assets\login.svg" />
     <Content Include="ClientApp\src\helpers\layers.js" />
     <Content Include="ClientApp\src\locations.geojson" />
     <None Remove="$(SpaRoot)**" />
