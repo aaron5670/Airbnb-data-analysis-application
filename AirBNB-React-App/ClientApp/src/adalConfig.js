@@ -2,9 +2,9 @@
 
 export const adalConfig = {
     tenant: 'edbba387-420d-4308-8dd9-59d2b1e16547',
-    clientId: '770e076d-f85f-43b9-a090-be0f007114a8',
+    clientId: '86b8817c-acb9-47b8-aeea-f4534ef3869e',
     endpoints: {
-        api: '14d71d65-f596-4eae-be30-27f079bf8d4b',
+        api: 'https://airbnbportal.onmicrosoft.com/86b8817c-acb9-47b8-aeea-f4534ef3869e'
     },
     cacheLocation: 'localStorage',
 };

@@ -4,7 +4,7 @@ import {useControls} from "leva";
 import {Fab, Action} from 'react-tiny-fab';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faSignInAlt, faBars, faSignOutAlt, faUserCircle} from '@fortawesome/free-solid-svg-icons'
-import {authContext} from "../adalConfig";
+import {adalConfig, authContext} from "../adalConfig";
 import 'react-tiny-fab/dist/styles.css';
 import { useHistory } from 'react-router';
 
@@ -29,8 +29,18 @@ const Map = () => {
         }
     ));
 
+    const getToken = () => authContext.getCachedToken(adalConfig.clientId);
+
+    console.log(getToken())
+
+
     useEffect(() => {
-        fetch('https://localhost:6001/api/Listings/locations')
+        fetch('https://localhost:6001/api/Listings/locations', {
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer '+ getToken(),
+            }),
+        })
             .then(response => response.json())
             .then(data => setGeoJSON(data))
     }, []);
@@ -42,6 +52,8 @@ const Map = () => {
     useEffect(() => {
         setMapTheme(theme)
     }, [theme]);
+
+    console.log(authContext.getCachedUser())
     
     return (
         <>

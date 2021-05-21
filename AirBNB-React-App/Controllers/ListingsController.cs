@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
 using AirBNB_React_App.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirBNB_React_App.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class ListingsController : ControllerBase
     {
         private readonly IListingsRepository _listingsRepository;

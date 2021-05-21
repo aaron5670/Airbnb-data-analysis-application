@@ -8,6 +8,14 @@ using Microsoft.Extensions.Hosting;
 using StackExchange.Profiling;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+
 
 namespace AirBNB_React_App
 {
@@ -25,23 +33,41 @@ namespace AirBNB_React_App
         {
             services.AddCors();
 
+            // services.AddMicrosoftIdentityWebApiAuthentication(Configuration, "AzureAd");
+
+            // services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            //     .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddMicrosoftIdentityWebApi(Configuration, "AzureAd");
+            
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                // note: the tenant id (authority) and client id (audience) 
+                // should normally be pulled from the config file or ENV vars.
+                // this code uses an inline example for brevity.
+     
+                options.Authority = "https://login.microsoftonline.com/edbba387-420d-4308-8dd9-59d2b1e16547";
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidAudience = "86b8817c-acb9-47b8-aeea-f4534ef3869e"
+                };
+            });
+            
             // services.AddControllersWithViews();
             services.AddControllers();
-
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = "https://localhost:5001";
-
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateAudience = false
-                    };
-                    
-                    options.Audience = "api1";
-                });
-
             
+            // services.AddControllersWithViews(options =>
+            // {
+            //     var policy = new AuthorizationPolicyBuilder()
+            //         .RequireAuthenticatedUser()
+            //         .Build();
+            //     options.Filters.Add(new AuthorizeFilter(policy));
+            // });
+
             services.AddDbContext<AirBNBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AIRBNB")));
 
@@ -51,11 +77,8 @@ namespace AirBNB_React_App
             });
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
-            
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+
             services.AddTransient<IListingsRepository, ListingRepository>();
         }
 
@@ -74,13 +97,13 @@ namespace AirBNB_React_App
             }
 
             app.UseMiniProfiler();
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseRouting();
-            
+
             app.UseCors(builder =>
                 builder
                     .WithOrigins("https://localhost:6001")
@@ -88,9 +111,10 @@ namespace AirBNB_React_App
                     .AllowAnyMethod()
                     .AllowCredentials()
             );
-            
+
+            app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseAuthorization();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -99,7 +123,7 @@ namespace AirBNB_React_App
                     StartHidden = true,
                     PopupToggleKeyboardShortcut = "Ctrl+m",
                 });
-                
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
