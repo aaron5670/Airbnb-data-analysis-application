@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
@@ -11,18 +10,14 @@ import {authContext} from './adalConfig';
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 
-const DO_NOT_LOGIN = false;
+const DO_NOT_LOGIN = true;
 
 runWithAdal(authContext, () => {
-
     ReactDOM.render(
         <BrowserRouter basename={baseUrl}>
             <App/>
         </BrowserRouter>,
         rootElement);
-    
 }, DO_NOT_LOGIN);
 
-
 registerServiceWorker();
-
