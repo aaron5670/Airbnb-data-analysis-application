@@ -2,15 +2,18 @@ import React, {useEffect, useState} from 'react';
 import MapComponent from "../components/map/MapComponent";
 import {useControls} from "leva";
 import {Fab, Action} from 'react-tiny-fab';
-import 'react-tiny-fab/dist/styles.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faSignInAlt, faBars} from '@fortawesome/free-solid-svg-icons'
+import {faSignInAlt, faBars, faSignOutAlt, faUserCircle} from '@fortawesome/free-solid-svg-icons'
+import {authContext} from "../adalConfig";
+import 'react-tiny-fab/dist/styles.css';
+import { useHistory } from 'react-router';
 
 const Map = () => {
     const [zoomLevel, setZoomLevel] = useState(11);
     const [mapTheme, setMapTheme] = useState('mapbox://styles/mapbox/streets-v11');
     const [geoJSON, setGeoJSON] = useState(null);
     const handleZoomLevel = zoomLevel => set({zoom: zoomLevel})
+    const history = useHistory();
 
     const [{zoom, theme}, set] = useControls(() => ({
             zoom: {value: 11, min: 0, max: 24},
@@ -27,7 +30,7 @@ const Map = () => {
     ));
 
     useEffect(() => {
-        fetch('https://localhost:5001/api/Listings/locations')
+        fetch('https://localhost:6001/api/Listings/locations')
             .then(response => response.json())
             .then(data => setGeoJSON(data))
     }, []);
@@ -39,15 +42,26 @@ const Map = () => {
     useEffect(() => {
         setMapTheme(theme)
     }, [theme]);
-
+    
     return (
         <>
             <Fab alwaysShowTitle={true} icon={<FontAwesomeIcon icon={faBars}/>}>
-                <Action text="Login" onClick={() => alert('login')}>
-                    <FontAwesomeIcon icon={faSignInAlt}/>
-                </Action>
+                {authContext.getCachedUser() ? (
+                    <Action text="Logout" onClick={() => authContext.logOut()}>
+                        <FontAwesomeIcon icon={faSignInAlt}/>
+                    </Action>
+                ) : (
+                    <Action text="Login" onClick={() => authContext.login()}>
+                        <FontAwesomeIcon icon={faSignOutAlt}/>
+                    </Action>
+                )}
+                {authContext.getCachedUser() && (
+                    <Action text="Dashboard" onClick={() => history.push("/account")}>
+                        <FontAwesomeIcon icon={faUserCircle}/>
+                    </Action>
+                )}
             </Fab>
-
+            
             <MapComponent zoom={zoomLevel} mapTheme={mapTheme} handleZoomLevel={handleZoomLevel} geoJSON={geoJSON}/>
         </>
     )

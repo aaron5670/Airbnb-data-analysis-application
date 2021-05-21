@@ -63,16 +63,16 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel, geoJSON}) => {
 
     return (
         <div>
-            <Geocoder
-                mapboxApiAccessToken={config.mapboxApiAccessToken}
-                onSelected={onSelected}
-                viewport={viewport}
-                hideOnSelect={true}
-                value=""
-                queryParams={params}
-            />
-
-            <button color="primary" onClick={() => addMarker()}>Add</button>
+            {/*<Geocoder*/}
+            {/*    mapboxApiAccessToken={config.mapboxApiAccessToken}*/}
+            {/*    onSelected={onSelected}*/}
+            {/*    viewport={viewport}*/}
+            {/*    hideOnSelect={true}*/}
+            {/*    value=""*/}
+            {/*    queryParams={params}*/}
+            {/*/>*/}
+            
+            {/*<button color="primary" onClick={() => addMarker()}>Add</button>*/}
 
             <ReactMapGL
                 mapboxApiAccessToken={config.mapboxApiAccessToken}
