@@ -8,14 +8,7 @@ using Microsoft.Extensions.Hosting;
 using StackExchange.Profiling;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-
 
 namespace AirBNB_React_App
 {
@@ -33,14 +26,6 @@ namespace AirBNB_React_App
         {
             services.AddCors();
 
-            // services.AddMicrosoftIdentityWebApiAuthentication(Configuration, "AzureAd");
-
-            // services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-            //     .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
-
-            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //     .AddMicrosoftIdentityWebApi(Configuration, "AzureAd");
-            
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -57,16 +42,7 @@ namespace AirBNB_React_App
                 };
             });
             
-            // services.AddControllersWithViews();
             services.AddControllers();
-            
-            // services.AddControllersWithViews(options =>
-            // {
-            //     var policy = new AuthorizationPolicyBuilder()
-            //         .RequireAuthenticatedUser()
-            //         .Build();
-            //     options.Filters.Add(new AuthorizeFilter(policy));
-            // });
 
             services.AddDbContext<AirBNBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AIRBNB")));
@@ -92,7 +68,6 @@ namespace AirBNB_React_App
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -101,9 +76,7 @@ namespace AirBNB_React_App
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
-            app.UseRouting();
-
+            
             app.UseCors(builder =>
                 builder
                     .WithOrigins("https://localhost:6001")
@@ -111,10 +84,10 @@ namespace AirBNB_React_App
                     .AllowAnyMethod()
                     .AllowCredentials()
             );
-
-            app.UseHttpsRedirection();
+            
             app.UseAuthentication();
-            // app.UseAuthorization();
+            app.UseRouting();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
