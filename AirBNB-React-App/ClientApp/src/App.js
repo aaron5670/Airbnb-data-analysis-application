@@ -6,6 +6,7 @@ import { FetchData } from './pages/FetchData';
 import Map from './pages/Map';
 
 import './custom.css'
+import {SigninODC} from "./pages/Signin-odc";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -16,6 +17,7 @@ export default class App extends Component {
         <Route exact path='/' component={Home} />
         <Route exact path='/map' component={Map} />
         <Route path='/fetch-data' component={FetchData} />
+        <Route path='/signin-oidc' component={SigninODC} />
       </Layout>
     );
   }

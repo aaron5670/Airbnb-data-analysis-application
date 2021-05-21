@@ -28,12 +28,14 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
+    <Content Include="ClientApp\src\adalConfig.js" />
     <Content Include="ClientApp\src\assets\login.svg" />
     <Content Include="ClientApp\src\helpers\layers.js" />
     <Content Include="ClientApp\src\locations.geojson" />
     <Content Include="ClientApp\src\services\userServices.js" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Include="ClientApp\src\pages\Signin-odc.js" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
