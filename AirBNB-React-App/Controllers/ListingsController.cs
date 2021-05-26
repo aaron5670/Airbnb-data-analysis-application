@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AirBNB_React_App.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ListingsController : ControllerBase

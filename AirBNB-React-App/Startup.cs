@@ -25,6 +25,7 @@ namespace AirBNB_React_App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            services.AddResponseCompression();
 
             services.AddAuthentication(options =>
             {
@@ -71,6 +72,8 @@ namespace AirBNB_React_App
                 app.UseHsts();
             }
 
+            app.UseResponseCompression();
+            
             app.UseMiniProfiler();
 
             app.UseHttpsRedirection();
