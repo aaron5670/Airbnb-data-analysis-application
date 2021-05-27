@@ -24,8 +24,8 @@ namespace AirBNB_React_App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
-            services.AddResponseCompression();
+            // services.AddCors();
+            // services.AddResponseCompression();
 
             services.AddAuthentication(options =>
             {
@@ -72,7 +72,7 @@ namespace AirBNB_React_App
                 app.UseHsts();
             }
 
-            app.UseResponseCompression();
+            // app.UseResponseCompression();
             
             app.UseMiniProfiler();
 
@@ -80,13 +80,13 @@ namespace AirBNB_React_App
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             
-            app.UseCors(builder =>
-                builder
-                    .WithOrigins("https://localhost:6001")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials()
-            );
+            // app.UseCors(builder =>
+            //     builder
+            //         .WithOrigins("https://localhost:6001")
+            //         .AllowAnyHeader()
+            //         .AllowAnyMethod()
+            //         .AllowCredentials()
+            // );
             
             app.UseAuthentication();
             app.UseRouting();
