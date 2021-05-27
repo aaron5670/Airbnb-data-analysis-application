@@ -25,7 +25,8 @@ const Map = () => {
                     light: 'mapbox://styles/mapbox/light-v10',
                     dark: 'mapbox://styles/mapbox/dark-v10',
                 }
-            }
+            },
+            neighborhoods: false,
         }
     ));
 
@@ -49,8 +50,6 @@ const Map = () => {
     useEffect(() => {
         setMapTheme(theme)
     }, [theme]);
-
-    console.log(authContext.getCachedUser())
     
     return (
         <>
