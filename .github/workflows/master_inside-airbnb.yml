@@ -5,8 +5,13 @@ name: Build and deploy ASP.Net Core app to Azure Web App - inside-airbnb
 
 on:
   push:
-    branches:
-      - master
+    paths:
+    - 'AirBNB-React-App/**'
+
+    # change the branch in the future to Master / Main
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
