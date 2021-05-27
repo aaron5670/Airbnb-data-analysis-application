@@ -5,8 +5,8 @@ import {Fab, Action} from 'react-tiny-fab';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faSignInAlt, faBars, faSignOutAlt, faUserCircle} from '@fortawesome/free-solid-svg-icons'
 import {adalConfig, authContext} from "../adalConfig";
-import 'react-tiny-fab/dist/styles.css';
 import { useHistory } from 'react-router';
+import 'react-tiny-fab/dist/styles.css';
 
 const Map = () => {
     const [zoomLevel, setZoomLevel] = useState(11);
