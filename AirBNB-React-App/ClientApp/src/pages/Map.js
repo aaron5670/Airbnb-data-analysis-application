@@ -30,6 +30,7 @@ const Map = () => {
             },
             maxPrice: {
                 value: 2000,
+                min: 0,
                 label: 'Maximum price'
             },
             neighborhoods: {value: false, label: 'Neighborhoods'},
@@ -65,7 +66,8 @@ const Map = () => {
     /** Max price **/
     useEffect(() => {
         if (geoJSON) {
-            const data = geoJSON.features.filter(listing => listing.properties.price <= maxPrice)
+            const data = geoJSON.features.filter(listing => listing.properties.price <= maxPrice);
+            
             setFilteredGeoJSON({
                 features: data,
                 type: "FeatureCollection"
