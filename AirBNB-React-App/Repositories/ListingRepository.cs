@@ -18,6 +18,8 @@ namespace AirBNB_React_App.Repositories
             var locationsList = await Context.Listings.Select(location => new Locations
             {
                 Id = location.Id,
+                Name = location.Name,
+                Price = location.Price,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude
             }).ToListAsync();

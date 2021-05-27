@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
@@ -19,11 +20,16 @@ namespace AirBNB_React_App.Helpers
                 var geom = new Point(new Position(item.Latitude, item.Longitude));
                 var props = new Dictionary<string, object>
                 {
-                    { "id", item.Id }
+                    {"id", item.Id},
+                    {"name", item.Name},
+                    {"price", Int32.Parse(item.Price.Replace("$", "").Replace(",", "").Replace(".00", ""))},
+                    {"latitude", item.Latitude},
+                    {"longitude", item.Longitude}
                 };
                 var feature = new Feature(geom, props);
                 model.Features.Add(feature);
             }
+
             var json = JsonConvert.SerializeObject(model);
             return json;
         }

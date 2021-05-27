@@ -11,9 +11,17 @@ const CustomPopup = ({index, marker, closePopup, remove}) => {
             closeOnClick={false}
             offsetTop={-30}
         >
-            <p>{marker.name}</p>
             <div>
-                <button color="secondary" onClick={() => remove(index)}>Remove</button>
+                <h1 className="text-lg mb-1">{marker.name}</h1>
+                <p className="mb-1">
+                    <b>Price: </b>{marker.price}
+                </p>
+                <p>
+                    <b>Description:</b><br/>
+                    <div>
+                        I'm renting a bedroom (room overlooking the garden) in my apartment in Amsterdam.
+                    </div>
+                </p>
             </div>
         </Popup>
     )

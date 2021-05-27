@@ -8,6 +8,7 @@
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <RootNamespace>AirBNB_React_App</RootNamespace>
+    <UserSecretsId>9dbff112-7a1a-4cc9-9049-e47ebe18919e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
