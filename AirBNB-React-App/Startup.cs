@@ -1,3 +1,4 @@
+using System.IO;
 using AirBNB_React_App.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -109,7 +110,8 @@ namespace AirBNB_React_App
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                // spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = Path.Join(env.ContentRootPath, "ClientApp");
 
                 if (env.IsDevelopment())
                 {
