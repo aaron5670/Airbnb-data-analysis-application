@@ -17,6 +17,15 @@ code {
   border-color: #1861ac;
 }
 
+.mapboxgl-popup-content {
+  max-width: 330px;
+  border-radius: 20px;
+}
+
+.mapboxgl-popup-content {
+  padding: 0;
+}
+
 .marker {
   width:0;
   height:0;

@@ -27,7 +27,6 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel, geoJSON}) => {
     const showDetails = (event) => {
         const listing = event.features.find(i => i.layer.id === 'unclustered-point');
         if (listing !== undefined) {
-            console.log(listing)
             setSelectedMarker(listing.properties)
         }
     }
@@ -60,7 +59,6 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel, geoJSON}) => {
 
                 {selectedMarker !== null && (
                     <CustomPopup
-                        index={selectedMarker}
                         marker={selectedMarker}
                         closePopup={() => closePopup()}
                     />

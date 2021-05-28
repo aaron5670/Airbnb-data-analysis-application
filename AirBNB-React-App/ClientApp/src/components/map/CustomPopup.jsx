@@ -1,7 +1,7 @@
 ﻿import {Popup} from "react-map-gl";
 import React from "react";
 
-const CustomPopup = ({index, marker, closePopup, remove}) => {
+const CustomPopup = ({marker, closePopup}) => {
     return (
         <Popup
             latitude={marker.latitude}
@@ -11,17 +11,19 @@ const CustomPopup = ({index, marker, closePopup, remove}) => {
             closeOnClick={false}
             offsetTop={-30}
         >
-            <div>
-                <h1 className="text-lg mb-1">{marker.name}</h1>
-                <p className="mb-1">
-                    <b>Price: </b>${marker.price},-
-                </p>
-                <p>
-                    <b>Description:</b><br/>
-                    <div>
-                        Lorem ipsum dolor sit amet.
+            <div className="card shadow-xl image-full">
+                <figure>
+                    <img src="https://fintax.it/wp-content/uploads/2018/04/airbnb-logo-belo.png" alt="Airbnb logo"/>
+                </figure>
+                <div className="justify-end card-body">
+                    <h2 className="card-title">{marker.name}</h2>
+                    <p className="mb-1">
+                        <b>Price: </b>${marker.price},-
+                    </p>
+                    <div className="card-actions">
+                        <button onClick={closePopup} className="btn btn-primary">Popup sluiten</button>
                     </div>
-                </p>
+                </div>
             </div>
         </Popup>
     )
