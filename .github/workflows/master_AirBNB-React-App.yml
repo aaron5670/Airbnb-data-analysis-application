@@ -28,7 +28,7 @@ jobs:
 
       - name: dotnet publish
         env:
-          CI: false
+          CI: ""
         run: dotnet publish --self-contained true -r win-x86 -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
