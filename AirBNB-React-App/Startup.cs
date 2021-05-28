@@ -46,19 +46,22 @@ namespace AirBNB_React_App
                 };
             });
             
-            services.AddControllers();
+            // services.AddControllers();
 
             services.AddDbContext<AirBNBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AIRBNB")));
 
-            services.AddMiniProfiler(options =>
-            {
-                //Optional options
-            });
+            // services.AddMiniProfiler(options =>
+            // {
+            //     //Optional options
+            // });
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
-
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+            
             services.AddTransient<IListingsRepository, ListingRepository>();
         }
 
@@ -77,7 +80,7 @@ namespace AirBNB_React_App
 
             // app.UseResponseCompression();
             
-            app.UseMiniProfiler();
+            // app.UseMiniProfiler();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -94,6 +97,7 @@ namespace AirBNB_React_App
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
@@ -108,15 +112,22 @@ namespace AirBNB_React_App
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
+            });
+
             app.UseSpa(spa =>
             {
-                // spa.Options.SourcePath = "ClientApp";
-                spa.Options.SourcePath = Path.Join(env.ContentRootPath, "ClientApp");
+                spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
+                ////if (env.IsDevelopment())
+                //{
+                //    spa.UseReactDevelopmentServer(npmScript: "start");
+                //}
             });
         }
     }
