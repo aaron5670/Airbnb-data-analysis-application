@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AirBNB_React_App.Helpers;
 using AirBNB_React_App.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +11,24 @@ namespace AirBNB_React_App.Controllers
     public class ListingsController : ControllerBase
     {
         private readonly IListingsRepository _listingsRepository;
-
-        public ListingsController(IListingsRepository listingsRepository)
+        private readonly IListingCaching _listingCache;
+        
+        public ListingsController(IListingsRepository listingsRepository, IListingCaching listingCaching)
         {
             _listingsRepository = listingsRepository;
+            _listingCache = listingCaching;
         }
 
         [HttpGet("locations")]
         public async Task<string> GetLocations()
         {
+            if (_listingCache.CacheExists())
+            {
+                var result = _listingCache.GetCachedLocations();
+                return result;
+            }
             var locations = await _listingsRepository.GetLocations();
+            _listingCache.SetCachedLocations(locations);
             return locations;
         }
         

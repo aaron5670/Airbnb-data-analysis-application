@@ -1,4 +1,5 @@
 using System.IO;
+using AirBNB_React_App.Helpers;
 using AirBNB_React_App.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using StackExchange.Profiling;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using StackExchange.Redis;
 
 namespace AirBNB_React_App
 {
@@ -27,42 +29,35 @@ namespace AirBNB_React_App
         {
             services.AddControllersWithViews();
 
-            // services.AddCors();
-            // services.AddResponseCompression();
+            services.AddResponseCompression();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                // note: the tenant id (authority) and client id (audience) 
-                // should normally be pulled from the config file or ENV vars.
-                // this code uses an inline example for brevity.
-     
-                options.Authority = "https://login.microsoftonline.com/edbba387-420d-4308-8dd9-59d2b1e16547";
-                options.TokenValidationParameters = new TokenValidationParameters()
+            services.AddAuthentication(options => { options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; })
+                .AddJwtBearer(options =>
                 {
-                    ValidAudience = "86b8817c-acb9-47b8-aeea-f4534ef3869e"
-                };
-            });
-            
-            // services.AddControllers();
+                    // note: the tenant id (authority) and client id (audience) 
+                    // should normally be pulled from the config file or ENV vars.
+                    // this code uses an inline example for brevity.
+
+                    options.Authority = "https://login.microsoftonline.com/edbba387-420d-4308-8dd9-59d2b1e16547";
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidAudience = "86b8817c-acb9-47b8-aeea-f4534ef3869e"
+                    };
+                });
 
             services.AddDbContext<AirBNBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AIRBNB")));
 
-            // services.AddMiniProfiler(options =>
-            // {
-            //     //Optional options
-            // });
+            services.AddMiniProfiler(options =>
+            {
+                //Optional options
+            });
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
-            
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
             services.AddTransient<IListingsRepository, ListingRepository>();
+            services.AddTransient<IListingCaching, ListingCache>();
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,26 +73,19 @@ namespace AirBNB_React_App
                 app.UseHsts();
             }
 
-            // app.UseResponseCompression();
-            
-            // app.UseMiniProfiler();
+            app.UseResponseCompression();
+
+            app.UseMiniProfiler();
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            
-            // app.UseCors(builder =>
-            //     builder
-            //         .WithOrigins("https://localhost:6001")
-            //         .AllowAnyHeader()
-            //         .AllowAnyMethod()
-            //         .AllowCredentials()
-            // );
-            
+
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
-            
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -112,22 +100,14 @@ namespace AirBNB_React_App
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-            });
-
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
 
-                ////if (env.IsDevelopment())
-                //{
-                //    spa.UseReactDevelopmentServer(npmScript: "start");
-                //}
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }

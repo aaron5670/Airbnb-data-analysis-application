@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;

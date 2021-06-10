@@ -48,8 +48,7 @@
   },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
-    "prebuild": "SET CI false",
-    "build": "SET CI false && react-scripts build",
+    "build": "react-scripts build",
     "test": "cross-env CI=false react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/"

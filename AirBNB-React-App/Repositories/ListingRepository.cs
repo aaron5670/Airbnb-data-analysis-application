@@ -29,11 +29,11 @@ namespace AirBNB_React_App.Repositories
                 Price = location.Price,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude
-            }).ToListAsync();
-
+            }).AsNoTracking().ToListAsync();
+            
             var locationsConverter = new LocationsConverter();
-
             var json = locationsConverter.ConvertToGeoJson(locationsList);
+            
             return json;
         }
 
