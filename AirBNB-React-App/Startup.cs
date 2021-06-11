@@ -56,6 +56,7 @@ namespace AirBNB_React_App
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
             services.AddTransient<IListingsRepository, ListingRepository>();
+            services.AddTransient<IChartsRepository, ChartsRepository>();
             services.AddTransient<IListingCaching, ListingCache>();
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis")));
         }
@@ -104,10 +105,10 @@ namespace AirBNB_React_App
             {
                 spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
+                //if (env.IsDevelopment())
+                //{
+                //    spa.UseReactDevelopmentServer(npmScript: "start");
+                //}
             });
         }
     }

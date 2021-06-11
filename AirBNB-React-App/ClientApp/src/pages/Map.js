@@ -16,9 +16,9 @@ const Map = () => {
     const handleZoomLevel = zoomLevel => set({zoom: zoomLevel})
     const history = useHistory();
 
-    //production: https://airbnb-react-app.azurewebsites.net
-    const API_URL = 'https://localhost:6001';
-
+    // const API_URL = 'https://localhost:6001';
+    const API_URL = 'https://airbnb-react-app.azurewebsites.net';
+    
     const [{zoom, theme, maxPrice, neighbourhood, reviewScore}, set] = useControls(() => ({
             zoom: {value: 11, min: 0, max: 24, label: 'Zoom level'},
             theme: {
