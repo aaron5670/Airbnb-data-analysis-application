@@ -35,7 +35,6 @@
     <Content Include="ClientApp\src\components\dashboard\Nav.jsx" />
     <Content Include="ClientApp\src\helpers\layers.js" />
     <Content Include="ClientApp\src\pages\test.json" />
-    <Content Include="ClientApp\webpack.config.js" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>

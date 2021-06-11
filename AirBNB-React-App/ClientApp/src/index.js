@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 
 import {runWithAdal} from 'react-adal';
 import {authContext} from './adalConfig';
@@ -20,4 +19,3 @@ runWithAdal(authContext, () => {
         rootElement);
 }, DO_NOT_LOGIN);
 
-registerServiceWorker();

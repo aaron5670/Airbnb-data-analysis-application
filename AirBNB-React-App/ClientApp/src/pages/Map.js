@@ -88,7 +88,7 @@ const Map = () => {
     const getToken = () => authContext.getCachedToken(adalConfig.clientId);
 
     useEffect(() => {
-        fetch('https://localhost:6001/api/Listings/locations', {
+        fetch('https://airbnb-react-app.azurewebsites.net/api/listings/locations', {
             headers: new Headers({
                 'content-type': 'application/json',
                 'Authorization': 'Bearer ' + getToken(),
