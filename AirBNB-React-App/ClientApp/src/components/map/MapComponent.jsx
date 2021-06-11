@@ -1,11 +1,10 @@
 ﻿import React, {useEffect, useState} from "react";
 import ReactMapGL, {Source, Layer} from "react-map-gl";
+import mapboxgl from "mapbox-gl";
 import {clusterLayer, clusterCountLayer, unclusteredPointLayer} from '../../helpers/layers';
 import CustomPopup from "./CustomPopup";
 import config from "../../config";
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-import mapboxgl from "mapbox-gl"; // This is a dependency of react-map-gl even if you didn't explicitly install it
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;

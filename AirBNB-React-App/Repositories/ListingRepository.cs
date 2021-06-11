@@ -30,10 +30,10 @@ namespace AirBNB_React_App.Repositories
                 Latitude = location.Latitude,
                 Longitude = location.Longitude
             }).AsNoTracking().ToListAsync();
-            
+
             var locationsConverter = new LocationsConverter();
             var json = locationsConverter.ConvertToGeoJson(locationsList);
-            
+
             return json;
         }
 
@@ -49,10 +49,49 @@ namespace AirBNB_React_App.Repositories
 
         public async Task<string> GetLocationFilterNeighbourhood(string neighbourhoodFilter)
         {
-            var locationsList = await _context.Listings.Where(x => x.Neighbourhood == neighbourhoodFilter)
+            var locationsList = await _context.Listings
+                .Where(x => x.Neighbourhood == neighbourhoodFilter)
                 .Select(location => new Locations
-                    {Id = location.Id, Latitude = location.Latitude, Longitude = location.Longitude})
-                .ToListAsync();
+                {
+                    Id = location.Id,
+                    Name = location.Name,
+                    Price = location.Price,
+                    Latitude = location.Latitude,
+                    Longitude = location.Longitude
+                })
+                .AsNoTracking().ToListAsync();
+            var json = ConvertToGeoJson(locationsList);
+            return json;
+        }
+
+        public async Task<string> GetLocationFilterReview(int reviewFilter)
+        {
+            var locationsList = await _context.Listings.Where(x => x.ReviewScoresValue >= reviewFilter)
+                .Select(location => new Locations
+                {
+                    Id = location.Id,
+                    Name = location.Name,
+                    Price = location.Price,
+                    Latitude = location.Latitude,
+                    Longitude = location.Longitude
+                }).AsNoTracking().ToListAsync();
+            var json = ConvertToGeoJson(locationsList);
+            return json;
+        }
+
+        public async Task<string> GetLocationFilter(string neighbourhood, int score)
+        {
+            var locationsList = await _context.Listings
+                .Where(x => x.ReviewScoresValue >= score)
+                .Where(x => x.Neighbourhood == neighbourhood)
+                .Select(location => new Locations
+                {
+                    Id = location.Id,
+                    Name = location.Name,
+                    Price = location.Price,
+                    Latitude = location.Latitude,
+                    Longitude = location.Longitude
+                }).AsNoTracking().ToListAsync();
             var json = ConvertToGeoJson(locationsList);
             return json;
         }
@@ -66,7 +105,11 @@ namespace AirBNB_React_App.Repositories
                 item.Longitude = Double.Parse(item.Longitude.ToString().Insert(1, "."), CultureInfo.InvariantCulture);
 
                 var geom = new Point(new Position(item.Latitude, item.Longitude));
-                var props = new Dictionary<string, object> {{"id", item.Id}};
+                var props = new Dictionary<string, object>
+                {
+                    {"id", item.Id}, {"latitude", item.Latitude}, {"longitude", item.Longitude}, {"name", item.Name},
+                    {"price", item.Price}
+                };
                 var feature = new Feature(geom, props);
 
                 model.Features.Add(feature);

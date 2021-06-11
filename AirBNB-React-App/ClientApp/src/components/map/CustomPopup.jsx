@@ -18,7 +18,7 @@ const CustomPopup = ({marker, closePopup}) => {
                 <div className="justify-end card-body">
                     <h2 className="card-title">{marker.name}</h2>
                     <p className="mb-1">
-                        <b>Price: </b>${marker.price},-
+                        <b>Price: </b>{marker.price},-
                     </p>
                     <div className="card-actions">
                         <button onClick={closePopup} className="btn btn-primary">Popup sluiten</button>

@@ -9,6 +9,10 @@ namespace AirBNB_React_App.Repositories
         
         Task<List<Neighbourhood>> GetNeighbourhoods();
 
-        Task<string> GetLocationFilterNeighbourhood(string neighbourhoodFilter);
+        Task<string> GetLocationFilterNeighbourhood(string neighbourhood);
+        
+        Task<string> GetLocationFilterReview(int score);      
+        
+        Task<string> GetLocationFilter(string neighbourhood, int score);
     }
 }

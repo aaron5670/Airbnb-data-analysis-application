@@ -16,7 +16,10 @@ const Map = () => {
     const handleZoomLevel = zoomLevel => set({zoom: zoomLevel})
     const history = useHistory();
 
-    const [{zoom, theme, maxPrice}, set] = useControls(() => ({
+    //production: https://airbnb-react-app.azurewebsites.net
+    const API_URL = 'https://localhost:6001';
+
+    const [{zoom, theme, maxPrice, neighbourhood, reviewScore}, set] = useControls(() => ({
             zoom: {value: 11, min: 0, max: 24, label: 'Zoom level'},
             theme: {
                 options: {
@@ -35,6 +38,7 @@ const Map = () => {
             },
             neighbourhood: {
                 options: {
+                    "------": "",
                     "Amsterdam Centrum": "Amsterdam Centrum",
                     "Banne Buiksloot": "Banne Buiksloot",
                     "Bos en Lommer": "Bos en Lommer",
@@ -82,13 +86,30 @@ const Map = () => {
                 },
                 label: 'Neighbourhood'
             },
+            reviewScore: {
+                options: {
+                    "------": -1,
+                    "1+": 1,
+                    "2+": 2,
+                    "3+": 3,
+                    "4+": 4,
+                    "5+": 5,
+                    "6+": 6,
+                    "7+": 7,
+                    "8+": 8,
+                    "9+": 9,
+                    "10+": 10,
+                },
+                value: -1,
+                label: 'Review score'
+            }
         }
     ));
 
     const getToken = () => authContext.getCachedToken(adalConfig.clientId);
 
     useEffect(() => {
-        fetch('https://airbnb-react-app.azurewebsites.net/api/listings/locations', {
+        fetch(`${API_URL}/api/listings/locations`, {
             headers: new Headers({
                 'content-type': 'application/json',
                 'Authorization': 'Bearer ' + getToken(),
@@ -123,6 +144,23 @@ const Map = () => {
         }
     }, [maxPrice]);
 
+    /** Review score **/
+    useEffect(() => {
+        if (reviewScore === -1 && neighbourhood === null) 
+            setFilteredGeoJSON(geoJSON)
+
+        fetch(`${API_URL}/api/listings/filter?score=${reviewScore}&neighbourhood=${neighbourhood}`, {
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                setFilteredGeoJSON(data)
+            })
+    }, [neighbourhood, reviewScore]);
+    
     return (
         <>
             <Fab alwaysShowTitle={true} icon={<FontAwesomeIcon icon={faBars}/>}>
