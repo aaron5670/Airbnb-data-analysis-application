@@ -8,7 +8,8 @@ namespace AirBNB_React_App.Repositories
         Task<IEnumerable<Chart>> GetReviewInfoChart();
         Task<IEnumerable<Chart>> GetAvailabilityInfoChart();
         Task<IEnumerable<NeighbourhoodChart>> GetAveragePriceNeighbourhoodInfoChart();
-        Task<IEnumerable<TypeBeds>> GetTypeBeds();
+        Task<IEnumerable<TypeBed>> GetTypeBeds();
         Task<IEnumerable<TypeAccommodation>> GetTypeAccommodations();
+        Task<IEnumerable<TypeRoom>> GetTypeRooms();
     }
 }

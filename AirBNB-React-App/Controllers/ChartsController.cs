@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AirBNB_React_App.Controllers
 {
-    // [Authorize(Roles = "AdminUser")]
+    [Authorize(Roles = "AdminUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class ChartsController : ControllerBase
@@ -38,20 +38,27 @@ namespace AirBNB_React_App.Controllers
         {
             var data = await _chartsRepository.GetAveragePriceNeighbourhoodInfoChart();
             return data;
-        }      
-        
-        [HttpGet("type-beds")]
-        public async Task<IEnumerable<TypeBeds>> GetTypeBeds()
-        {
-            var data = await _chartsRepository.GetTypeBeds();
-            return data;
-        }  
-        
+        }
+
         [HttpGet("type-accommodations")]
         public async Task<IEnumerable<TypeAccommodation>> GetTypeAccommodation()
         {
             var data = await _chartsRepository.GetTypeAccommodations();
             return data;
+        }        
+        
+        [HttpGet("type-rooms")]
+        public async Task<IEnumerable<TypeRoom>> GetTypeRooms()
+        {
+            var data = await _chartsRepository.GetTypeRooms();
+            return data;
         }
+        
+        [HttpGet("type-beds")]
+        public async Task<IEnumerable<TypeBed>> GetTypeBeds()
+        {
+            var data = await _chartsRepository.GetTypeBeds();
+            return data;
+        }  
     }
 }

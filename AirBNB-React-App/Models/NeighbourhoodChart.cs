@@ -2,7 +2,7 @@
 {
     public class NeighbourhoodChart
     {
-        public string? Numbers { get; set; }
-        public double? Count { get; set; }
+        public string? Neighbourhood { get; set; }
+        public double? AveragePrice { get; set; }
     }
 }

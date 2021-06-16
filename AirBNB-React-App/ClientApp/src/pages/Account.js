@@ -6,9 +6,31 @@ import {adalConfig, authContext} from "../adalConfig";
 import config from "../config";
 
 export const Account = () => {
+    const [averagePriceNeighbourhoods, setAveragePriceNeighbourhoods] = useState();
     const [typeAccommodations, setTypeAccommodations] = useState();
+    const [typeRooms, setTypeRooms] = useState();
     const [typeBeds, setTypeBeds] = useState();
     const getToken = () => authContext.getCachedToken(adalConfig.clientId);
+
+    /**
+     * Average price neighbourhoods
+     */
+    useEffect(() => {
+        fetch(`${config.API_URL}/api/charts/average-price`, {
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                setAveragePriceNeighbourhoods({
+                    labels: data.map(a => a.neighbourhood),
+                    count: data.map(a => a.averagePrice)
+                })
+            })
+    }, []);
+
 
     /**
      * Type accommodations
@@ -23,6 +45,25 @@ export const Account = () => {
             .then(response => response.json())
             .then(data => {
                 setTypeAccommodations({
+                    labels: data.map(a => a.type),
+                    count: data.map(a => a.count)
+                })
+            })
+    }, []);
+
+    /**
+     * Type rooms
+     */
+    useEffect(() => {
+        fetch(`${config.API_URL}/api/charts/type-rooms`, {
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                setTypeRooms({
                     labels: data.map(a => a.type),
                     count: data.map(a => a.count)
                 })
@@ -71,17 +112,24 @@ export const Account = () => {
         <>
             <Nav/>
             <Hero/>
-            {/*<VerticalBar/>*/}
+            <VerticalBar labels={averagePriceNeighbourhoods?.labels} data={averagePriceNeighbourhoods?.count}/>
 
-            <div className="relative py-4 w-full">
-                <div className="w-1/2 float-left">
+            <div className="relative py-4 pt- w-full">
+                <div className="w-1/3 float-left">
                     <h2 className="max-w-lg text-center mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-black-50 sm:text-4xl md:mx-auto">
                         Type accommodations
                     </h2>
                     <DoughnutChart labels={typeAccommodations?.labels} data={typeAccommodations?.count}/>
                 </div>
 
-                <div className="w-1/2 float-left">
+                <div className="w-1/3 float-left">
+                    <h2 className="max-w-lg text-center mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-black-50 sm:text-4xl md:mx-auto">
+                        Type Rooms
+                    </h2>
+                    <DoughnutChart labels={typeRooms?.labels} data={typeRooms?.count}/>
+                </div>
+
+                <div className="w-1/3 float-left">
                     <h2 className="max-w-lg text-center mb-6 font-sans text-3xl font-bold leading-none tracking-tight text-black-50 sm:text-4xl md:mx-auto">
                         Type beds
                     </h2>

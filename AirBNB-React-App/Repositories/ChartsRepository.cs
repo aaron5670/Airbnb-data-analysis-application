@@ -48,18 +48,24 @@ namespace AirBNB_React_App.Repositories
                 .GroupBy(x => x.Neighbourhood)
                 .Select(s => new NeighbourhoodChart
                 {
-                    Numbers = s.Key,
-                    Count = s.Average(x => x.Availability30)
+                    Neighbourhood = s.Key,
+                    AveragePrice = s.Average(x => Convert.ToDouble(
+                        x.Price.Replace("$", "")
+                            .Replace(",", "")
+                            .Replace(".00", "")
+                    ))
                 }).ToListAsync());
+            
+            //var data = charts.Where(x => x.Neighbourhood != null).ToArray();
 
             return charts;
         }
 
-        public async Task<IEnumerable<TypeBeds>> GetTypeBeds()
+        public async Task<IEnumerable<TypeBed>> GetTypeBeds()
         {
             var charts = await Task.Run(() => _context.Listings
                 .GroupBy(x => x.BedType)
-                .Select(s => new TypeBeds
+                .Select(s => new TypeBed
                 {
                     Type = s.Key,
                     Count = s.Select(l => l.Id).Distinct().Count()
@@ -73,6 +79,19 @@ namespace AirBNB_React_App.Repositories
             var charts = await Task.Run(() => _context.Listings
                 .GroupBy(x => x.PropertyType)
                 .Select(s => new TypeAccommodation()
+                {
+                    Type = s.Key,
+                    Count = s.Select(l => l.Id).Distinct().Count()
+                }).ToListAsync());
+
+            return charts;
+        }        
+        
+        public async Task<IEnumerable<TypeRoom>> GetTypeRooms()
+        {
+            var charts = await Task.Run(() => _context.Listings
+                .GroupBy(x => x.RoomType)
+                .Select(s => new TypeRoom()
                 {
                     Type = s.Key,
                     Count = s.Select(l => l.Id).Distinct().Count()
