@@ -18,21 +18,7 @@ namespace AirBNB_React_App.Controllers
         {
             _chartsRepository = chartsRepository;
         }
-        
-        [HttpGet("review")]
-        public async Task<IEnumerable<Chart>> GetReviewInfoChart()
-        {
-            var data = await _chartsRepository.GetReviewInfoChart();
-            return data.OrderBy(chart => chart.Numbers);
-        }
-        
-        [HttpGet("chart/availability")]
-        public async Task<IEnumerable<Chart>> GetAvailabilityInfoChart()
-        {
-            var data = await _chartsRepository.GetAvailabilityInfoChart();
-            return data.OrderBy(chart => chart.Numbers);
-        }
-        
+
         [HttpGet("average-price")]
         public async Task<IEnumerable<NeighbourhoodChart>> GetAveragePriceNeighbourhoodInfoChart()
         {

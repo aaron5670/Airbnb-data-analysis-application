@@ -6,8 +6,8 @@ namespace AirBNB_React_App.Helpers
     public class ListingCache : IListingCaching
     {
         private readonly IDatabase _cache;
-        private const string KEY = "listings";
-        private const int EXPIRE = 30;
+        private const string Key = "listings";
+        private const int Expire = 30;
 
         public ListingCache(IConnectionMultiplexer connectionMultiplexer)
         {
@@ -16,19 +16,19 @@ namespace AirBNB_React_App.Helpers
 
         public string GetCachedLocations()
         {
-            var cache = _cache.StringGet(KEY);
+            var cache = _cache.StringGet(Key);
             return cache;
         }
 
         public bool CacheExists()
         {
-            return _cache.KeyExists(KEY);
+            return _cache.KeyExists(Key);
         }
 
         public void SetCachedLocations(string locations)
         {
-            _cache.StringSet(KEY, locations);
-            _cache.KeyExpire(KEY, DateTime.Now.AddSeconds(EXPIRE));
+            _cache.StringSet(Key, locations);
+            _cache.KeyExpire(Key, DateTime.Now.AddSeconds(Expire));
         }
     }
 }

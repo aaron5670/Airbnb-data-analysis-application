@@ -38,10 +38,10 @@ namespace AirBNB_React_App
                     // should normally be pulled from the config file or ENV vars.
                     // this code uses an inline example for brevity.
 
-                    options.Authority = "https://login.microsoftonline.com/edbba387-420d-4308-8dd9-59d2b1e16547";
+                    options.Authority = Configuration.GetValue<string>("AzureAd:Instance");
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
-                        ValidAudience = "86b8817c-acb9-47b8-aeea-f4534ef3869e"
+                        ValidAudience = Configuration.GetValue<string>("AzureAd:ClientId")
                     };
                 });
 
