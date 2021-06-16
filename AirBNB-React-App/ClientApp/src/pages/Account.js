@@ -1,8 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Nav from "../components/dashboard/Nav";
 import VerticalBar from "../components/dashboard/charts/VerticalBar";
+import DoughnutChart from "../components/dashboard/charts/Doughnut";
+import {adalConfig, authContext} from "../adalConfig";
+import config from "../config";
 
 export const Account = () => {
+    const [typeAccommodations, setTypeAccommodations] = useState();
+    const getToken = () => authContext.getCachedToken(adalConfig.clientId);
+
+    useEffect(() => {
+        fetch(`${config.API_URL}/api/charts/type-accommodations`, {
+            headers: new Headers({
+                'content-type': 'application/json',
+                'Authorization': 'Bearer ' + getToken(),
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                setTypeAccommodations({
+                    labels: data.map(a => a.type),
+                    count: data.map(a => a.count)
+                })
+            })
+    }, []);
+
     const Hero = () => {
         return (
             <div className="bg-deep-purple-accent-700">
@@ -27,6 +49,18 @@ export const Account = () => {
             <Nav/>
             <Hero/>
             <VerticalBar/>
+
+            <div className="container">
+                <div className="relative py-4 w-screen">
+                    <div className="w-1/2 float-left">
+                        <DoughnutChart labels={typeAccommodations?.labels} data={typeAccommodations?.count}/>
+                    </div>
+
+                    <div className="w-1/2 float-left">
+                        <DoughnutChart labels={typeAccommodations?.labels} data={typeAccommodations?.count}/>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

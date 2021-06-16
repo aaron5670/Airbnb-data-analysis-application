@@ -7,6 +7,7 @@ import {faSignInAlt, faBars, faSignOutAlt, faUserCircle} from '@fortawesome/free
 import {adalConfig, authContext} from "../adalConfig";
 import {useHistory} from 'react-router';
 import 'react-tiny-fab/dist/styles.css';
+import config from "../config";
 
 const Map = () => {
     const [zoomLevel, setZoomLevel] = useState(11);
@@ -15,9 +16,6 @@ const Map = () => {
     const [filteredGeoJSON, setFilteredGeoJSON] = useState(null);
     const handleZoomLevel = zoomLevel => set({zoom: zoomLevel})
     const history = useHistory();
-
-    // const API_URL = 'https://localhost:6001';
-    const API_URL = 'https://airbnb-react-app.azurewebsites.net';
     
     const [{zoom, theme, maxPrice, neighbourhood, reviewScore}, set] = useControls(() => ({
             zoom: {value: 11, min: 0, max: 24, label: 'Zoom level'},
@@ -107,9 +105,9 @@ const Map = () => {
     ));
 
     const getToken = () => authContext.getCachedToken(adalConfig.clientId);
-
+    
     useEffect(() => {
-        fetch(`${API_URL}/api/listings/locations`, {
+        fetch(`${config.API_URL}/api/listings/locations`, {
             headers: new Headers({
                 'content-type': 'application/json',
                 'Authorization': 'Bearer ' + getToken(),
@@ -149,7 +147,7 @@ const Map = () => {
         if (reviewScore === -1 && neighbourhood === null) 
             setFilteredGeoJSON(geoJSON)
 
-        fetch(`${API_URL}/api/listings/filter?score=${reviewScore}&neighbourhood=${neighbourhood}`, {
+        fetch(`${config.API_URL}/api/listings/filter?score=${reviewScore}&neighbourhood=${neighbourhood}`, {
             headers: new Headers({
                 'content-type': 'application/json',
                 'Authorization': 'Bearer ' + getToken(),

@@ -1,24 +1,57 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AirBNB_React_App.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirBNB_React_App.Controllers
 {
-    [Authorize]
+    // [Authorize(Roles = "AdminUser")]
     [Route("api/[controller]")]
     [ApiController]
     public class ChartsController : ControllerBase
     {
-        [HttpGet("user")]
-        public string Test()
+        private readonly IChartsRepository _chartsRepository;
+        
+        public ChartsController(IChartsRepository chartsRepository)
         {
-            return "admin: false";
+            _chartsRepository = chartsRepository;
         }
         
-        [HttpGet("admin")]
-        [Authorize(Roles = "AdminUser")]
-        public string Admin()
+        [HttpGet("review")]
+        public async Task<IEnumerable<Chart>> GetReviewInfoChart()
         {
-            return "admin: true";
+            var data = await _chartsRepository.GetReviewInfoChart();
+            return data.OrderBy(chart => chart.Numbers);
+        }
+        
+        [HttpGet("chart/availability")]
+        public async Task<IEnumerable<Chart>> GetAvailabilityInfoChart()
+        {
+            var data = await _chartsRepository.GetAvailabilityInfoChart();
+            return data.OrderBy(chart => chart.Numbers);
+        }
+        
+        [HttpGet("average-price")]
+        public async Task<IEnumerable<NeighbourhoodChart>> GetAveragePriceNeighbourhoodInfoChart()
+        {
+            var data = await _chartsRepository.GetAveragePriceNeighbourhoodInfoChart();
+            return data;
+        }      
+        
+        [HttpGet("type-beds")]
+        public async Task<IEnumerable<TypeBeds>> GetTypeBeds()
+        {
+            var data = await _chartsRepository.GetTypeBeds();
+            return data;
+        }  
+        
+        [HttpGet("type-accommodations")]
+        public async Task<IEnumerable<TypeAccommodation>> GetTypeAccommodation()
+        {
+            var data = await _chartsRepository.GetTypeAccommodations();
+            return data;
         }
     }
 }
