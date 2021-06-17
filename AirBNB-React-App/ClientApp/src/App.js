@@ -1,17 +1,23 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Route} from 'react-router';
 import {Layout} from './components/Layout';
 import Map from './pages/Map';
-import {Account} from "./pages/Account";
+import Dashboard from "./pages/Dashboard";
+import Unauthorized from "./pages/Unauthorized";
+import ProtectedRoute from "./components/ProtectedRoute";
+import {authContext} from "./adalConfig";
 import './custom.css'
 
-export default class App extends Component {
-    render() {
-        return (
-            <Layout>
-                <Route exact path='/' component={Map}/>
-                <Route path='/account' component={Account}/>
-            </Layout>
-        );
-    }
+const App = () => {
+    const user = authContext.getCachedUser();
+    
+    return (
+        <Layout>
+            <Route exact path='/' component={Map}/>
+            <ProtectedRoute exact path='/dashboard' user={user} component={Dashboard}/>
+            <Route exact path='/unauthorized' component={Unauthorized}/>
+        </Layout>
+    );
 }
+
+export default App

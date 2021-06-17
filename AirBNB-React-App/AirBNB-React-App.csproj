@@ -34,8 +34,10 @@
     <Content Include="ClientApp\src\components\dashboard\charts\Doughnut.jsx" />
     <Content Include="ClientApp\src\components\dashboard\charts\VerticalBar.jsx" />
     <Content Include="ClientApp\src\components\dashboard\Nav.jsx" />
+    <Content Include="ClientApp\src\components\ProtectedRoute.jsx" />
     <Content Include="ClientApp\src\helpers\layers.js" />
     <Content Include="ClientApp\src\helpers\randomColors.js" />
+    <Content Include="ClientApp\src\pages\Unauthorized.js" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>

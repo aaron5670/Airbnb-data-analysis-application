@@ -5,7 +5,7 @@ import DoughnutChart from "../components/dashboard/charts/Doughnut";
 import {adalConfig, authContext} from "../adalConfig";
 import config from "../config";
 
-export const Account = () => {
+const Dashboard = () => {
     const [averagePriceNeighbourhoods, setAveragePriceNeighbourhoods] = useState();
     const [typeAccommodations, setTypeAccommodations] = useState();
     const [typeRooms, setTypeRooms] = useState();
@@ -16,19 +16,21 @@ export const Account = () => {
      * Average price neighbourhoods
      */
     useEffect(() => {
-        fetch(`${config.API_URL}/api/charts/average-price`, {
-            headers: new Headers({
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + getToken(),
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                setAveragePriceNeighbourhoods({
-                    labels: data.map(a => a.neighbourhood),
-                    count: data.map(a => a.averagePrice)
-                })
+        if (!averagePriceNeighbourhoods) {
+            fetch(`${config.API_URL}/api/charts/average-price`, {
+                headers: new Headers({
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer ' + getToken(),
+                }),
             })
+                .then(response => response.json())
+                .then(data => {
+                    setAveragePriceNeighbourhoods({
+                        labels: data.map(a => a.neighbourhood),
+                        count: data.map(a => a.averagePrice)
+                    })
+                })
+        }
     }, []);
 
 
@@ -36,57 +38,63 @@ export const Account = () => {
      * Type accommodations
      */
     useEffect(() => {
-        fetch(`${config.API_URL}/api/charts/type-accommodations`, {
-            headers: new Headers({
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + getToken(),
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                setTypeAccommodations({
-                    labels: data.map(a => a.type),
-                    count: data.map(a => a.count)
-                })
+        if (!typeAccommodations) {
+            fetch(`${config.API_URL}/api/charts/type-accommodations`, {
+                headers: new Headers({
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer ' + getToken(),
+                }),
             })
+                .then(response => response.json())
+                .then(data => {
+                    setTypeAccommodations({
+                        labels: data.map(a => a.type),
+                        count: data.map(a => a.count)
+                    })
+                })
+        }
     }, []);
 
     /**
      * Type rooms
      */
     useEffect(() => {
-        fetch(`${config.API_URL}/api/charts/type-rooms`, {
-            headers: new Headers({
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + getToken(),
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                setTypeRooms({
-                    labels: data.map(a => a.type),
-                    count: data.map(a => a.count)
-                })
+        if (!typeRooms) {
+            fetch(`${config.API_URL}/api/charts/type-rooms`, {
+                headers: new Headers({
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer ' + getToken(),
+                }),
             })
+                .then(response => response.json())
+                .then(data => {
+                    setTypeRooms({
+                        labels: data.map(a => a.type),
+                        count: data.map(a => a.count)
+                    })
+                })
+        }
     }, []);
 
     /**
      * Type beds
      */
     useEffect(() => {
-        fetch(`${config.API_URL}/api/charts/type-beds`, {
-            headers: new Headers({
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + getToken(),
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                setTypeBeds({
-                    labels: data.map(a => a.type),
-                    count: data.map(a => a.count)
-                })
+        if (!typeBeds) {
+            fetch(`${config.API_URL}/api/charts/type-beds`, {
+                headers: new Headers({
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer ' + getToken(),
+                }),
             })
+                .then(response => response.json())
+                .then(data => {
+                    setTypeBeds({
+                        labels: data.map(a => a.type),
+                        count: data.map(a => a.count)
+                    })
+                })
+        }
     }, []);
 
     const Hero = () => {
@@ -139,3 +147,5 @@ export const Account = () => {
         </>
     );
 }
+
+export default Dashboard

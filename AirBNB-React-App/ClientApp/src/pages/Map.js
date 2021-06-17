@@ -172,7 +172,7 @@ const Map = () => {
                     </Action>
                 )}
                 {authContext.getCachedUser() && (
-                    <Action text="Dashboard" onClick={() => history.push("/account")}>
+                    <Action text="Dashboard" onClick={() => history.push("/dashboard")}>
                         <FontAwesomeIcon icon={faUserCircle}/>
                     </Action>
                 )}
