@@ -5,8 +5,6 @@ namespace AirBNB_React_App.Repositories
 {
     public interface IChartsRepository
     {
-        Task<IEnumerable<Chart>> GetReviewInfoChart();
-        Task<IEnumerable<Chart>> GetAvailabilityInfoChart();
         Task<IEnumerable<NeighbourhoodChart>> GetAveragePriceNeighbourhoodInfoChart();
         Task<IEnumerable<TypeBed>> GetTypeBeds();
         Task<IEnumerable<TypeAccommodation>> GetTypeAccommodations();

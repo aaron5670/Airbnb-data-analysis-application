@@ -51,7 +51,6 @@
         if (err) return console.error(err);
         if (!scriptHTML) return;
 
-        console.log('Loaded')
         loadScript(scriptHTML);
     });
 })(window);

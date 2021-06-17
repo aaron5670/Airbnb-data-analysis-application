@@ -1,7 +1,25 @@
 ﻿import {Popup} from "react-map-gl";
 import React from "react";
 
-const CustomPopup = ({marker, closePopup}) => {
+const CustomPopup = ({marker, closePopup, stays, loading}) => {
+    const ProfitAndStays = ({stays, loading}) => {
+        if (loading) return <p className="mb-1"><b>Loading...</b></p>
+        if (stays) {
+            return (
+                <>
+                    <p className="mb-1">
+                        <b>Stays: </b>{stays}
+                    </p>
+                    <p className="mb-1">
+                        <b>Profit: </b>${stays * marker.price},-
+                    </p>
+                </>
+            )
+        } else {
+            return <p className="mb-1"><b>No data</b></p>
+        }
+    }
+
     return (
         <Popup
             latitude={marker.latitude}
@@ -18,8 +36,9 @@ const CustomPopup = ({marker, closePopup}) => {
                 <div className="justify-end card-body">
                     <h2 className="card-title">{marker.name}</h2>
                     <p className="mb-1">
-                        <b>Price: </b>{marker.price},-
+                        <b>Price: </b>${marker.price},-
                     </p>
+                    <ProfitAndStays loading={loading} stays={stays}/>
                     <div className="card-actions">
                         <button onClick={closePopup} className="btn btn-primary">Popup sluiten</button>
                     </div>

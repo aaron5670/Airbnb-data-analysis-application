@@ -16,7 +16,7 @@ const Map = () => {
     const [filteredGeoJSON, setFilteredGeoJSON] = useState(null);
     const handleZoomLevel = zoomLevel => set({zoom: zoomLevel})
     const history = useHistory();
-    
+
     const [{zoom, theme, maxPrice, neighbourhood, reviewScore}, set] = useControls(() => ({
             zoom: {value: 11, min: 0, max: 24, label: 'Zoom level'},
             theme: {
@@ -104,15 +104,8 @@ const Map = () => {
         }
     ));
 
-    const getToken = () => authContext.getCachedToken(adalConfig.clientId);
-    
     useEffect(() => {
-        fetch(`${config.API_URL}/api/listings/locations`, {
-            headers: new Headers({
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + getToken(),
-            }),
-        })
+        fetch(`${config.API_URL}/api/listings/locations`)
             .then(response => response.json())
             .then(data => {
                 setGeoJSON(data)
@@ -134,7 +127,7 @@ const Map = () => {
     useEffect(() => {
         if (geoJSON) {
             const data = geoJSON.features.filter(listing => listing.properties.price <= maxPrice);
-            
+
             setFilteredGeoJSON({
                 features: data,
                 type: "FeatureCollection"
@@ -144,21 +137,14 @@ const Map = () => {
 
     /** Review score **/
     useEffect(() => {
-        if (reviewScore === -1 && neighbourhood === null) 
+        if (reviewScore === -1 && neighbourhood === null)
             setFilteredGeoJSON(geoJSON)
 
-        fetch(`${config.API_URL}/api/listings/filter?score=${reviewScore}&neighbourhood=${neighbourhood}`, {
-            headers: new Headers({
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + getToken(),
-            }),
-        })
+        fetch(`${config.API_URL}/api/listings/filter?score=${reviewScore}&neighbourhood=${neighbourhood}`)
             .then(response => response.json())
-            .then(data => {
-                setFilteredGeoJSON(data)
-            })
+            .then(data => setFilteredGeoJSON(data));
     }, [neighbourhood, reviewScore]);
-    
+
     return (
         <>
             <Fab alwaysShowTitle={true} icon={<FontAwesomeIcon icon={faBars}/>}>

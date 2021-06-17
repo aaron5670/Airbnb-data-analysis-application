@@ -12,6 +12,8 @@ mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worke
 const MapComponent = ({zoom, mapTheme, handleZoomLevel, geoJSON}) => {
     const [viewport, setViewport] = useState({latitude: 52.370216, longitude: 4.895168, zoom: zoom});
     const [selectedMarker, setSelectedMarker] = useState(null);
+    const [stays, setStays] = useState(null);
+    const [loadingStays, setLoadingStays] = useState(true);
     
     useEffect(() => {
         setViewport({
@@ -20,7 +22,17 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel, geoJSON}) => {
             zoom: zoom
         })
     }, [zoom]);
-
+    
+    useEffect(() => {
+        if (selectedMarker) {
+            setLoadingStays(true)
+            fetch(`${config.API_URL}/api/listings/stays?listingId=${selectedMarker.id}`)
+                .then(response => response.json())
+                .then(data => setStays(data[0]?.stays))
+                .then(() => setLoadingStays(false))
+        }
+    },[selectedMarker])
+    
     const mapStyle = {
         width: '100%',
         height: '100%'
@@ -64,6 +76,8 @@ const MapComponent = ({zoom, mapTheme, handleZoomLevel, geoJSON}) => {
                 {selectedMarker !== null && (
                     <CustomPopup
                         marker={selectedMarker}
+                        stays={stays}
+                        loading={loadingStays}
                         closePopup={() => closePopup()}
                     />
                 )}

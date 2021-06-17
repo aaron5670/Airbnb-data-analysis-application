@@ -5,9 +5,6 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => {
     return (
         <Route {...rest} render={
             props => {
-
-                console.log(user)
-                
                 if (user) {
                     return <Component {...rest} {...props} />
                 } else {

@@ -43,6 +43,7 @@ namespace AirBNB_React_App.Repositories
                 .Select(n => new Neighbourhood {Neighbourhood1 = n.Neighbourhood})
                 .Where(w => w.Neighbourhood1 != null)
                 .Distinct()
+                .AsNoTracking()
                 .ToListAsync());
             return neighbourhoods;
         }
@@ -94,6 +95,20 @@ namespace AirBNB_React_App.Repositories
                 }).AsNoTracking().ToListAsync();
             var json = ConvertToGeoJson(locationsList);
             return json;
+        }
+
+        public async Task<List<ListingStays>> GetListingStays(int listingId)
+        {
+            var locationsList = await _context.Calendars
+                .Where(x => x.ListingId == listingId)
+                .Where(x => x.Available == "f")
+                .GroupBy(x => x.ListingId)
+                .Select(s => new ListingStays()
+                {
+                    Stays = s.Select(l => l.ListingId).Count()
+                }).ToListAsync();
+
+            return locationsList;
         }
 
         private static string ConvertToGeoJson(List<Locations> loc)

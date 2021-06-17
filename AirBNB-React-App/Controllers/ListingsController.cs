@@ -54,5 +54,11 @@ namespace AirBNB_React_App.Controllers
 
             return await _listingsRepository.GetLocations();
         }
+        
+        [HttpGet("stays")]
+        public async Task<List<ListingStays>> GetListingProfit(int listingId)
+        {
+            return await _listingsRepository.GetListingStays(listingId);
+        }
     }
 }

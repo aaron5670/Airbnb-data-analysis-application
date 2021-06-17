@@ -15,33 +15,6 @@ namespace AirBNB_React_App.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Chart>> GetReviewInfoChart()
-        {
-            var charts = await Task.Run(() => _context.Listings
-                .GroupBy(x => x.ReviewScoresRating / 10)
-                .Select(s => new Chart
-                {
-                    Numbers = s.Key,
-                    Count = s.Count()
-                }).ToListAsync());
-            var ratings = charts.Where(x => x.Numbers != null).ToArray();
-            return ratings;
-        }
-
-        public async Task<IEnumerable<Chart>> GetAvailabilityInfoChart()
-        {
-            var charts = await Task.Run(() => _context.Listings
-                .GroupBy(x => x.Availability30)
-                .Select(s => new Chart
-                {
-                    Numbers = s.Key,
-                    Count = s.Count()
-                }).ToListAsync());
-            var data = charts.Where(x => x.Numbers != 0).ToArray();
-
-            return data;
-        }
-
         public async Task<IEnumerable<NeighbourhoodChart>> GetAveragePriceNeighbourhoodInfoChart()
         {
             var charts = await Task.Run(() => _context.Listings
@@ -85,7 +58,7 @@ namespace AirBNB_React_App.Repositories
                 }).ToListAsync());
 
             return charts;
-        }        
+        }
         
         public async Task<IEnumerable<TypeRoom>> GetTypeRooms()
         {
